@@ -20,7 +20,7 @@ char	**create_initial_map(int fd)
 
 	res = NULL;
 	str = get_next_line(fd);
-	while (str && ft_strlen(str) == 1)
+	while (str && ft_strlen(str) == 1 && *str == '\n')
 	{
 		free (str);
 		str = get_next_line(fd);
@@ -36,10 +36,12 @@ char	**create_initial_map(int fd)
 	return (res);
 }
 
-void	get_max_width(t_map *res, int *height, char **i_map)
+bool	get_max_width(t_map *res, int *height, char **i_map)
 {
 	int	width;
 
+    if (!i_map)
+        return (false);
 	width = 0;
 	*height = 0;
 	while (i_map[*height])
@@ -52,6 +54,7 @@ void	get_max_width(t_map *res, int *height, char **i_map)
 	res->x_size = width - 1;
 	res->grid = malloc(sizeof (char *) * *height);
 	*height = *height - 1;
+    return (true);
 }
 
 t_map	*create_final_map(char **i_map)
@@ -61,7 +64,8 @@ t_map	*create_final_map(char **i_map)
 	int		iterator;
 
 	res = malloc(sizeof(t_map));
-	get_max_width(res, &height, i_map);
+	if (!get_max_width(res, &height, i_map))
+        return (free(res), NULL);
 	while (height >= 0)
 	{
 		res->grid[height] = malloc(sizeof(char) * res->x_size + 1);
@@ -79,6 +83,5 @@ t_map	*create_final_map(char **i_map)
 		}
 		height--;
 	}
-	ft_split_clear(i_map);
-	return (res);
+	return (ft_split_clear(i_map), res);
 }

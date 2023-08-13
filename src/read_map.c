@@ -97,6 +97,8 @@ bool	read_map(t_settings *settings, char *path)
 		return (false);
 	settings->dict = dict;
 	settings->map = create_final_map(create_initial_map(fd));
+    if (!settings->map)
+        return (false);
 	if (!check_final_map(settings->map, settings)
 		|| !map_is_closed(settings->map))
 		return (free_vectors(settings), false);

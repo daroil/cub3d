@@ -156,7 +156,7 @@ bool			check_final_map(t_map *map, t_settings *settings);
 //create_map.c
 t_map			*create_final_map(char **i_map);
 char			**create_initial_map(int fd);
-void			get_max_width(t_map *res, int *height, char **i_map);
+bool			get_max_width(t_map *res, int *height, char **i_map);
 
 //read_map.c
 void			set_player(t_settings *settings, t_map *map, int x, int y);
